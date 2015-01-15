@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Intersection Finder</title>
+	<link href="css/graph.css" rel="stylesheet" type="text/css">
+	<script src="flot/jquery.js"></script>
+	<script src="flot/jquery.flot.js"></script>
+	<script src="nerdamer/nerdamer.core.js"></script>
+	<script src="nerdamer/Algebra.js"></script>
+	<script src="nerdamer/Calculus.js"></script>
+	<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	<script src="js/calculations.js"></script>
+</head>
+<body>
+
+	<div id="header">
+		<h2>Intersection finder</h2>
+	</div>
+
+	<div id="content">
+
+		<div class="graph-container">
+			<div id="graph"></div>
+			<div id="legend"></div>
+		</div>
+		
+		<div class="equations">
+			<form id="equation_form">
+			Expression 1:<br>
+			<input type="text" id="function1">
+			<br>Expression 2:<br>
+			<input type="text" id="function2">
+			<br>
+			<input type="radio" name="solve" value="newton" id="new" checked>Newton's Method
+			<br>
+			<input type="radio" name="solve" value="bisection" id="bis">Bisection Method
+			<br>Initial Guess: <input type="text" id="guess" style="width:10%">
+			<br>Delta limit: <input type="text" id="tol" style="width:10%">
+			<br>Max Iterations: <input type="text" id="iter" style="width:10%">
+			<br>
+			<input type="button" onclick="set_f()" value="Solve">
+			</form>
+			<p><b>Please enter the expression as a function of x</b></p>
+		</div>
+		
+		<div id="solution">
+			One solution to the equation \({}\) is: \({}\)
+		</div>
+		
+		<div id="diverge">
+			The algorithm has diverged. Try to formulate the function in another way
+		</div>
+		
+		<div id="nostart">
+			The algorithm couldn't find the two starting locations.
+		</div>
+		
+		<div class="text">
+			<p>Solves the intersection of the two equations by bisection search.
+			Assumes continuous functions. Asymptotes will result in a "zero" for bisection.
+			Contains round-off error in function evaluations.</p>
+
+			<p>Plotting by Flot library. Symbolic expression evaluation by Nerdamer Library</p>
+			
+			<p>The reserved keywords from nerdamer are: </p>
+			
+			<p id="avail"></p>
+		</div>
+	</div>
+
+
+</body>
+
+<script>
+
+	arr = nerdamer.reserved(true);
+	sym_str = arr[0];
+	for (var i = 1; i < arr.length; i++)
+	{
+		sym_str += ", " + arr[i];
+	}
+	$("#avail").append(sym_str);
+	
+	$(document).ready(function() {
+		$("div#solution").hide();
+		$("div#diverge").hide();
+		$("div#nostart").hide();
+	});
+
+</script>
+
+</html>
